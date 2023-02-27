@@ -1,0 +1,30 @@
+#title{
+	font-size: 26px;
+	line-height: 75px;
+}
+
+.menu-object{
+	display:grid;
+	
+}
+
+.buttonGrid{
+	display:grid;
+}
+
+p{
+	text-align: center;
+}
+
+button.menu-object:active{
+	font-size: 18px;
+	width: 275px;
+	height: 70px;
+}
+
+button.menu-object:hover:not(:active){
+	font-size: 22px;
+	width: 325px;
+	height: 85px;
+}
+
