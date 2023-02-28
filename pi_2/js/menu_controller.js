@@ -8,6 +8,7 @@ function exit (){
 		alert("Leaving " + name + "'s game");
 	}
 	name = "";
+	loadpage("../index.html")
 }
 
 function options(){
@@ -17,6 +18,10 @@ function options(){
 
 function goToP2(){
 	loadpage("./pi_2/index.html");
+}
+
+function goToMenu(){
+	loadpage("../index.html");
 }
 
 function loadpage(url){
