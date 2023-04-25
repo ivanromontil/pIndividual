@@ -3,7 +3,7 @@ function start_game(){
 	
 	sessionStorage.setItem("username", name);
 	
-	loadpage("./html/game.html");
+	loadpage("./game.html");
 }
 
 function exit (){
@@ -27,6 +27,30 @@ function goToP3(){
 
 function goToTreInd(){
 	loadpage("./TreInd/menu.html");
+}
+
+function goToPhaserGame(){
+	loadpage("./index.html")
+}
+
+function startGameMode2(){
+	name = prompt("User name");
+	
+	sessionStorage.setItem("username", name);
+	
+	loadpage("./gameMode2.html");
+}
+
+function goToMode1(){
+	loadpage("./html/mode1.html");
+}
+
+function goToMode2(){
+	loadpage("./html/mode2.html");
+}
+function goToRanking(){
+	loadpage("./html/ranking.html");
+	console.log(arrayPartides)
 }
 
 function loadpage(url){
