@@ -32,6 +32,7 @@ class GameScene extends Phaser.Scene {
 		this.items.sort(function(){return Math.random() - 0.5});
 		this.items = this.items.slice(0, this.num_cards);
 		this.items = this.items.concat(this.items);
+		this.items.sort(function(){return Math.random() - 0.5});
 
 		this.cameras.main.setBackgroundColor(0xBFFCFF);
 		for (let j = 0; j < this.items.length; j++){

@@ -1,5 +1,6 @@
-var json = localStorage.getItem("config") || '{"cards":2,"dificulty":"hard"}';
+var json = localStorage.getItem("config") || '{"cards":2,"dificulty":"hard", level:5}';
 options_data = JSON.parse(json);
+var timeShown = 5000
 
 class GameScene extends Phaser.Scene {
     constructor (){
@@ -11,6 +12,7 @@ class GameScene extends Phaser.Scene {
 		this.correct = 0;
 		this.dificulty;
 		this.started=false;
+		this.level;
     }
 
     preload (){	
@@ -26,12 +28,13 @@ class GameScene extends Phaser.Scene {
     create (){
 		this.dificulty=options_data.dificulty;
 		this.num_cards=options_data.cards;
-		console.log(this.dificulty);
+		this.level= options_data.level
 		this.items = ['cb', 'co', 'sb', 'so', 'tb', 'to'];
 
 		this.items.sort(function(){return Math.random() - 0.5});
 		this.items = this.items.slice(0, this.num_cards);
 		this.items = this.items.concat(this.items);
+		this.items.sort(function(){return Math.random() - 0.5});
 
 		this.cameras.main.setBackgroundColor(0xBFFCFF);
 		for (let j = 0; j < this.items.length; j++){
@@ -40,21 +43,14 @@ class GameScene extends Phaser.Scene {
 		this.cards = this.physics.add.staticGroup();
 
 		var timeWaiting = 0;
-		
+		console.log(this.level)
 		if(!this.started){
-			if(options_data.dificulty === "hard"){
-				timeWaiting = 1000;
-			}
-			else if(options_data.dificulty === "normal"){
-				timeWaiting=4000;
-			}
-			else{
-				timeWaiting=10000;
-			}
+
+			timeWaiting=timeShown/this.level;
 
 			this.started=true;
 		}
-
+		console.log(timeWaiting)
 		setTimeout(()=>{
 			for (let k = 0; k < this.items.length; k++){
 				this.cards.create((50 + (100*k)), 300, 'back');
@@ -70,24 +66,10 @@ class GameScene extends Phaser.Scene {
 					card.disableBody(true,true);
 					if (this.firstClick){
 						if (this.firstClick.card_id !== card.card_id){
-							if(this.dificulty === "hard"){
-								this.score-=40
-								setTimeout(()=>{
-									card.enableBody(false, 0, 0, true, true);
-								},200)
-							}
-							else if(this.dificulty === "normal"){
-								this.score-=20
-								setTimeout(()=>{
-									card.enableBody(false, 0, 0, true, true);
-								},500)
-							}
-							else{
-								this.score-=5
-								setTimeout(()=>{
-									card.enableBody(false, 0, 0, true, true);
-								},1000)
-							}
+							setTimeout(()=>{
+								card.enableBody(false, 0, 0, true, true);
+							},timeWaiting/5)
+							this.score-=(this.level*5)
 							this.firstClick.enableBody(false, 0, 0, true, true);
 							if (this.score <= 0){
 								alert("Game Over");
@@ -99,24 +81,22 @@ class GameScene extends Phaser.Scene {
 							if (this.correct >= this.num_cards){
                                 
                                 var options_data = {
-                                    cards:this.num_cards, dificulty:this.dificulty
+                                    cards:this.num_cards, 
+									dificulty:this.dificulty, 
+									level:this.level
                                 };
 
                                 if(options_data.cards == 2){
                                     options_data.cards=3;
                                 }
-                                else if (options_data.dificulty == "easy"){
-                                    options_data.dificulty = "normal"
-                                }
                                 else if(options_data.cards == 3){
                                     options_data.cards=4;
                                 }
-                                else if (options_data.dificulty == "normal"){
-                                    options_data.dificulty = "hard"
-                                }
-                                
+								else{
+									options_data.level++
+								}
                                 var save = function(){
-                                    localStorage.setItem("config", JSON.stringify(options_data));
+									localStorage.setItem("config", JSON.stringify(options_data));
                                 };
                                 save();
 								
